@@ -12,6 +12,12 @@ var ATTACK_LEVEL = 1;
 
 function EnvGen(audioContext, targetParam) {
   // Support instantiating w/o new
+  if (!(audioContext instanceof AudioContext)) {
+    console.error('Invalid AudioContext');
+  }
+  if (!(targetParam instanceof AudioParam)) {
+    console.error('Invalid target AudioParam');
+  }
   if (!(this instanceof EnvGen)) {
     return new EnvGen(audioContext, targetParam);
   }
@@ -81,7 +87,7 @@ function EnvGen(audioContext, targetParam) {
   this._targetParam.value = INITIAL_LEVEL;
 
   // In case there was preexisting automation on the target parameter, we reset it here to known state.
-  if (this._targetParam.cancelScheduledValues) this._targetParam.cancelScheduledValues(0);
+  this._targetParam.cancelScheduledValues(0);
   this._targetParam.setValueAtTime(INITIAL_LEVEL, 0);
 
   // All segments are exponential approaches to target values (setTargetAtTime)
