@@ -81,7 +81,7 @@ function EnvGen(audioContext, targetParam) {
   this._targetParam.value = INITIAL_LEVEL;
 
   // In case there was preexisting automation on the target parameter, we reset it here to known state.
-  this._targetParam.cancelScheduledValues(0);
+  if (this._targetParam.cancelScheduledValues) this._targetParam.cancelScheduledValues(0);
   this._targetParam.setValueAtTime(INITIAL_LEVEL, 0);
 
   // All segments are exponential approaches to target values (setTargetAtTime)
